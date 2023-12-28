@@ -1,0 +1,21 @@
+version: '4.0'
+
+services:
+  student-service:
+    image: part1:latest
+    ports:
+    - "8081:8081"
+    networks:
+      - my_network
+
+
+  reg-service:
+    image: part2:latest
+    ports:
+      - "8082:8082"
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge
