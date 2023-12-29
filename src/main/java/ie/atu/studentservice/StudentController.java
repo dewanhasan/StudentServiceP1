@@ -4,12 +4,11 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-//@RequestMapping("/Enrolment")
+import java.util.List;
+
+@RequestMapping("/Enrolment")
 @RestController
 public class StudentController {
     private StudentRegClient studentRegClient;
@@ -22,26 +21,41 @@ public class StudentController {
         this.databaseService = databaseService;
     }
 
-    /*@PostMapping("/enrol-and-confirm")
-    public ResponseEntity<String> enrolAndConfirm(@Valid @RequestBody StudentDetails studentDetails) {
-        try {
-            // Enroll the student via the StudentService (which interacts with the database)
-            databaseService.enrol(studentDetails);
+    @GetMapping("/{firstname}/{lastname}")
+    public ResponseEntity<?> getStudentDetails(@PathVariable String firstname, @PathVariable String lastname){
 
-            // Communicate with the second microservice (RegistrationClient)
-            Object response; studentRegClient.someDetails(studentDetails);
+        StudentDetails studentDetails = databaseService.getDetailsbyFirstAndLastname(firstname, lastname);
 
-            // Assuming the third microservice is called internally within the RegistrationClient
-
-
-            System.out.println("Student Enrolled and Confirmed: " + studentDetails);
-
-            return new ResponseEntity<>("Student Enrolled and Confirmed", HttpStatus.OK);
-        } catch (Exception e) {
-            // Handle exceptions appropriately
-            return new ResponseEntity<>("Error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        if(studentDetails == null){
+            return ResponseEntity.notFound().build();
         }
-    }*/
+        return ResponseEntity.ok(studentDetails);
+    }
+
+    @GetMapping("/findAllData")
+    public ResponseEntity<?> getAllData(){
+        List<StudentDetails> studentDetails = databaseService.getAllData();
+
+        if(studentDetails == null){
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(studentDetails);
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteStudent(@PathVariable Long id){
+        databaseService.deleteStudent(id);
+        return new ResponseEntity<>("Student un-enrolled successfully", HttpStatus.OK);
+    }
+
+    @PutMapping("/{dob}")
+    public ResponseEntity<String> updateStudentDetails(@PathVariable String dob, @RequestBody StudentDetails updatedDetails) {
+        databaseService.updateStudentDetails(dob, updatedDetails);
+        return new ResponseEntity<>("Student details updated succesfully", HttpStatus.OK);
+    }
+
 
 
     @PostMapping("/approved-and-registered")
