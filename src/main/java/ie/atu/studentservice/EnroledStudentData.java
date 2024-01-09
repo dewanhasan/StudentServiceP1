@@ -14,6 +14,7 @@ public class EnroledStudentData implements CommandLineRunner {
         this.databaseRepository = databaseRepository;
     }
 
+    //Enrolled students data in the database, by using the method run
     @Override
     public void run(String... args) throws Exception {
 
