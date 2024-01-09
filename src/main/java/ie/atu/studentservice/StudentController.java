@@ -21,6 +21,7 @@ public class StudentController {
         this.databaseService = databaseService;
     }
 
+    //Request To get student details by entering firstname and lastname
     @GetMapping("/{firstname}/{lastname}")
     public ResponseEntity<?> getStudentDetails(@PathVariable String firstname, @PathVariable String lastname){
 
@@ -32,6 +33,8 @@ public class StudentController {
         return ResponseEntity.ok(studentDetails);
     }
 
+
+    //Request to get all students detail available in the database
     @GetMapping("/findAllData")
     public ResponseEntity<?> getAllData(){
         List<StudentDetails> studentDetails = databaseService.getAllData();
@@ -44,12 +47,14 @@ public class StudentController {
     }
 
 
+    // Delete a registered student by entering student id
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteStudent(@PathVariable Long id){
         databaseService.deleteStudent(id);
         return new ResponseEntity<>("Student un-enrolled successfully", HttpStatus.OK);
     }
 
+    // Update student details by entering students date of birth
     @PutMapping("/{dob}")
     public ResponseEntity<String> updateStudentDetails(@PathVariable String dob, @RequestBody StudentDetails updatedDetails) {
         databaseService.updateStudentDetails(dob, updatedDetails);
@@ -71,28 +76,4 @@ public class StudentController {
         System.out.println("Student Enrolled: " +studentDetails);
         return ResponseEntity.ok("Student enrolled succesfully");
     }
-
-
-   /* @PostMapping("/approved-and-registered")
-    public Object approveAndRegister(@RequestBody StudentDetails studentDetails){
-        System.out.println("Student details received at StudentController: " + studentDetails);
-        return studentRegClient.someDetails(studentDetails);
-    }*/
-
-    /*@PostMapping("/enrol")
-    public ResponseEntity<String>enrolment(@Valid @RequestBody StudentDetails studentDetails){
-        databaseService.enrol(studentDetails);
-        System.out.println("Student Enrolled: " +studentDetails);
-        return new ResponseEntity<>("Student enrolled succesfully", HttpStatus.OK);
-    }*/
-
-
-
-    /*@PostMapping("/approved-and-registered")
-    public ResponseEntity<String>enrolment(@Valid @RequestBody StudentDetails studentDetails){
-        databaseService.enrol(studentDetails);
-        studentRegClient.someDetails(studentDetails);
-        System.out.println("Student Enrolled: " +studentDetails);
-        return new ResponseEntity<>("Student enrolled succesfully", HttpStatus.OK);
-    }*/
 }

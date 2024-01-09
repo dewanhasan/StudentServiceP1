@@ -16,20 +16,25 @@ public class DatabaseService {
     }
 
 
+    //Enrols and save a registered student details.
     public void enrol(StudentDetails studentDetails){
 
         databaseRepository.save(studentDetails);
     }
 
+    //This is used to get a specific student details by entering students firstname and last name
     public StudentDetails getDetailsbyFirstAndLastname(String firstname, String lastname){
 
         return databaseRepository.findByFirstnameAndLastname(firstname, lastname);
     }
 
+
+    // This method is used to delete a registered student by entering the student id.
     public void deleteStudent(Long id){
         databaseRepository.deleteById(id);
     }
 
+    // This method is used to update a specific students information by entering dob
     public void updateStudentDetails(String dob, StudentDetails updatedDetails) {
         Optional<StudentDetails> existingStudentOptional = databaseRepository.findBydob(dob);
 
@@ -52,6 +57,7 @@ public class DatabaseService {
         }
     }
 
+    // This method is used to get all data from the database
     public List<StudentDetails> getAllData() {
         return databaseRepository.findAll();
     }
