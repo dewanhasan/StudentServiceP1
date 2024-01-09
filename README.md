@@ -7,10 +7,10 @@ students by their names, deleting entries by ID, and updating student details us
 
 
 database: http://localhost:8081/h2-console
-Driver class: org.h2.Driver
-jdbcURL:jdbc:h2:mem:StudentApp
-username: dewan
-password: password
+Driver class: 'org.h2.Driver'
+jdbcURL: 'jdbc:h2:mem:StudentApp'
+username: 'dewan'
+password: 'password'
 
 The youtube link demonstrating the working of this application:
 https://www.youtube.com/watch?v=4jjgOjEcnJs
